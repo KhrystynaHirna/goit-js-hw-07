@@ -1,20 +1,17 @@
 import { galleryItems } from './gallery-items.js';
 
-console.log(galleryItems);
-let items;
-
 const gallery = document.querySelector('.gallery');
 const galleryItemsMarkup = createGalleryItems(galleryItems);
-gallery.insertAdjacentHTML('beforeend', galleryItemsMarkup);
 
-// gallery.addEventListener('click', onGalleryItemsClick);
+gallery.insertAdjacentHTML('beforeend', galleryItemsMarkup);
+gallery.addEventListener('click', onGalleryItemsClick);
 
 function createGalleryItems(items) {
     return items
         .map(({ preview, original, description }) => {
         return `
     <div class="gallery__item">
-    <a class="gallery__link" href="${original}">
+    <a class="gallery__link" source="${original}">
     <img
       class="gallery__image"
       src="${preview}"
@@ -26,10 +23,15 @@ function createGalleryItems(items) {
  `;
     })
         .join('');
-
 }
+function onGalleryItemsClick(ev) {
+    ev.preventDefault();
 
+    if (ev.target.nodeName !== "IMG") {
+        return;
+    }
+    const imageUrl = ev.target.dataset.source;
+    const instance = basicLightbox.create(`<img src=${imageUrl}>`);
 
-// function onGalleryItemsClick(ev) {
-//     ev.target.event;
-// }
+    instance.show()
+};
