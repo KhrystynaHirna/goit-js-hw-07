@@ -29,9 +29,35 @@ function onGalleryItemsClick(ev) {
 
     if (ev.target.nodeName !== "IMG") {
         return;
-    }
+    };
     const imageUrl = ev.target.dataset.source;
     const instance = basicLightbox.create(`<img src=${imageUrl}>`);
 
     instance.show()
+   
+    onShow: (instance) => {
+        window.addEventListener("keydown", onEscClick);
+         instance.show();
+    }
+    
+    onClose: (instance) => {
+        window.removeEventListener("keydown", onEscClick)
+         instance.close();
+    }
+
+    function onEscClick(ev) {
+        if (ev.key === "Escape") {
+            instance.close();
+        }
+    }
 };
+
+
+
+
+
+ 
+
+
+
+   
